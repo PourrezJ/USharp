@@ -503,6 +503,10 @@ namespace PluginInstaller
             }
             else
             {
+                string vsPath = VSLocator.GetVisualStudioPath();
+                if (Directory.Exists(Path.Combine(vsPath, "MSBuild/Current/Bin/")))
+                    return Path.Combine(vsPath, "MSBuild/Current/Bin/MSBuild.exe");
+
                 // VS2019 doesn't use the \SxS\ registry key. Instead find the path from the VS installer (this is the same
                 // lookup that vswhere.exe uses). This should also work for VS2017?
 
@@ -530,6 +534,7 @@ namespace PluginInstaller
                                             Dictionary<string, string> vsPaths = new Dictionary<string, string>();
                                             Dictionary<string, string> supportedVersions = new Dictionary<string, string>()
                                             {
+                                                { "2022", "MSBuild/Current/Bin/MSBuild.exe" },
                                                 { "2019", "MSBuild/Current/Bin/MSBuild.exe" },
                                                 { "2017", "MSBuild/15.0/Bin/MSBuild.exe" }
                                             };
